@@ -1,0 +1,152 @@
+---
+title: "NPC for univariate and multivariate stochastic ordering"
+author: "Riccardo Ceccato"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+
+library(dplyr)
+library(mvtnorm)
+library(NPCStochOrd)
+
+```
+
+This document provides a few examples where the NonParametric Combination (NPC) methodology is used to deal with univariate and multivariate stochastic ordering problems, in order to facilitate the comprehension of the functions provided by the NPCStochOrd package. 
+
+## Installation
+
+```{r}
+#devtools::install_github("CeccatoR/NPCStochOrd")
+```
+
+
+## Example 1
+
+We take advantage of simulated data to address a 2-sample univariate stochastic ordering problem.
+
+```{r es1a,warning=FALSE}
+rm(list=ls())
+set.seed(1234)
+ni <- 30
+dt <- data.frame(group = rep(c("A","B"),each = ni),
+                 x1 = c(rnorm(ni,10,1),rnorm(ni,8,1)))
+knitr::kable(dt%>%group_by(group)%>%summarise_all(.funs = mean),digits = 2)
+```
+
+To assess if group A stochastically dominates group B, we can use the difference in mean ("dm") test statistic
+
+```{r es1b,warning=FALSE}
+#A>B
+test.stat.2.samples(dt, statistic = "dm", alternative = 1, B = 2000, comb.fun = "F")
+
+```
+
+or, as an alternative, the Anderson-Darling ("ad") test statistic 
+
+```{r es1c,warning=FALSE}
+#A>B
+test.stat.2.samples(dt, statistic = "ad", alternative = 1, B = 2000, comb.fun = "F")
+```
+
+Looking at partial and global p-values (which are equal in the univariate case), we conclude that $A \overset > d B$.
+
+## Example 2
+
+We take advantage of simulated data to address a 2-sample multivariate stochastic ordering problem.
+
+```{r es2}
+set.seed(125)
+ni <- 30
+Sigma <- matrix(0.25,ncol=3,nrow=3)
+diag(Sigma) <- 1
+muA <- c(10,7,5)
+muB <- c(8,7,2)
+dt <- data.frame(group = rep(c("A","B"),each = ni),
+                 rbind(rmvnorm(ni,mean=muA,sigma=Sigma),
+                       rmvnorm(ni,mean=muB,sigma=Sigma)))
+knitr::kable(dt%>%group_by(group)%>%summarise_all(.funs = mean),digits = 2)
+```
+
+After deciding to use Fisher's combining function, to assess if group A stochastically dominates group B, we can use the difference in mean ("dm") test statistic
+
+```{r es2b,warning=FALSE}
+#A>B
+test.stat.2.samples(dt, statistic = "dm", alternative = 1, B = 2000, comb.fun = "F")
+```
+
+or, as an alternative, the Anderson-Darling ("ad") test statistic 
+
+```{r es2c,warning=FALSE}
+#A>B
+test.stat.2.samples(dt, statistic = "ad", alternative = 1, B = 2000, comb.fun = "F")
+```
+
+Looking at partial and global p-values, we conclude that $A \overset > d B$.
+
+
+## Example 3
+
+We take advantage of Iris data to address a C-sample univariate stochastic ordering problem.
+
+```{r es3}
+data(iris)
+#group labels must be in the first column
+dt <- iris[,c(5,1)]
+knitr::kable(dt%>%group_by(Species)%>%summarise_all(.funs = mean),digits = 2)
+```
+
+To assess if $virginica \overset d \geq versicolor \overset d \geq setosa$ (with at least a strict inequality), we can use the difference in mean ("dm") test statistic
+
+```{r es3b,warning=FALSE}
+#virginica > versicolor > setosa
+test.stat.C.samples(dt, ord = c("virginica","versicolor","setosa"), statistic = "ad", B = 2000,comb.fun = "F",seed = 1234)
+```
+
+or, as an alternative, the Anderson-Darling ("ad") test statistic 
+
+```{r es3c,warning=FALSE}
+#virginica > versicolor > setosa
+test.stat.C.samples(dt, ord = c("virginica","versicolor","setosa"), statistic = "dm", B = 2000,comb.fun = "F",seed = 1234)
+```
+
+Looking at partial and global p-values (which are equal in the univariate case), we conclude that $virginica \overset d \geq versicolor \overset d \geq setosa$ (with at least a strict inequality). 
+
+
+## Example 4
+
+We take advantage of Iris data to address a C-sample multivariate stochastic ordering problem.
+
+```{r es4}
+set.seed(125)
+data("iris")
+#group labels must be in the first column
+dt <- iris[,c(5,1:4)]
+knitr::kable(dt%>%group_by(Species)%>%summarise_all(.funs = mean),digits = 2)
+```
+
+After deciding to use Fisher's combining function, to assess if $virginica \overset d \geq versicolor \overset d \geq setosa$ (with at least a strict inequality), we can use the difference in mean ("dm") test statistic
+
+```{r es4b,warning=FALSE}
+#virginica > versicolor > setosa
+test.stat.C.samples(dt, ord = c("virginica","versicolor","setosa"), statistic = "ad", B = 2000,comb.fun = "F",seed = 1234)
+```
+
+or, as an alternative, the Anderson-Darling ("ad") test statistic 
+
+```{r es4c,warning=FALSE}
+#virginica > versicolor > setosa
+test.stat.C.samples(dt, ord = c("virginica","versicolor","setosa"), statistic = "dm", B = 2000,comb.fun = "F",seed = 1234)
+```
+
+Looking at the global p-value, we conclude that $virginica \overset d \geq versicolor \overset d \geq setosa$ (with at least a strict inequality). However, the partial p-values suggest that evidence does not support such an order when considering only Sepal.Width.

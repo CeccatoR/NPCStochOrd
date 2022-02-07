@@ -1,0 +1,10 @@
+Package: NPCStochOrd
+Type: Package
+Title: NonParametric Combination (NPC) methodology for Stochastic Ordering problems
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: Riccardo Ceccato <ceccato@gest.unipd.it>
+Description: Permutation tests, based on the NonParametric Combination (NPC) methodology, to deal with stochastic ordering in the presence of univariate and multivariate data.
+License: Apache License 2.0 
+Encoding: UTF-8
+LazyData: true
