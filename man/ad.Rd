@@ -2,19 +2,18 @@
 \alias{ad}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Compute Anderson-Darling test statistic
+Anderson-Darling test statistic
 }
 \description{
-Compute Anderson-Darling test statistic.
-
+Computes Anderson-Darling test statistic when the alternative hypothesis involves assuming that Group 1 stochastically dominates Group 2.
 }
 \usage{
 ad(x,label)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{x}{data.frame containing V outcome variables.}
-\item{label}{group labels.}
+\item{x}{outcome variable.}
+\item{label}{group labels. 1 and 2 need to be used to indicate the first and the second group respectively.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -48,7 +47,7 @@ xA<-rnorm(20,10,1)
 xB<-rnorm(20,6,1)
 
 #A>B
-ad(c(xA,xB),c(rep(1,length(xA)),rep(1,length(xB))))
+ad(c(xA,xB),c(rep(1,length(xA)),rep(2,length(xB))))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

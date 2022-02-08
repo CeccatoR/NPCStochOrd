@@ -2,10 +2,10 @@
 \alias{FWE.minP}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate adjusted p-values using FWEminP approach.
+Minp Bonferroni-Holm procedure
 }
 \description{
-Calculate adjusted p-values using FWEminP approach.
+Computes adjusted p-values using a Bonferroni-Holm adjustment (see Pesarin & Salmaso, 2010).
 }
 \usage{
 FWE.minP(P)

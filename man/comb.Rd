@@ -2,10 +2,10 @@
 \alias{comb}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Combine partial p-values
+Partial p-values combination
 }
 \description{
-Combine partial p-values.
+Combines partial p-values.
 }
 \usage{
 comb(pv, fcomb)
@@ -42,26 +42,7 @@ Riccardo Ceccato, Luigi Salmaso
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (pv, fcomb)
-{
-    if (fcomb == "F") {
-        pc <- apply(pv, 1, function(x) -2 * log(prod(x, na.rm = TRUE)))
-    }
-    if (fcomb == "L") {
-        pc <- apply(pv, 1, function(x) sum(qnorm(1 - x), na.rm = TRUE))
-    }
-    if (fcomb == "T") {
-        pc <- apply(pv, 1, function(x) max((1 - x), na.rm = TRUE))
-    }
-    return(pc)
-  }
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
 % \keyword{ ~kwd1 }

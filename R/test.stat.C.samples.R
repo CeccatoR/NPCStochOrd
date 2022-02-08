@@ -1,20 +1,5 @@
-#Aim:
-#- Computation of p-values via NonParametric Combination methodology for C-sample univariate and multivariate stochastic ordering problems.
+test.stat.C.samples <- function(y, ord, statistic = "dm", B = 2000, comb.fun = "F", seed = 1234){
 
-#Input:
-#- y: data.frame containing group labels (in the first column) and V-1 outcome variables
-#- ord: vector containing the specific order of the group levels we want to test (e.g. c("A","C","B") stands for A>B>C)
-#- statistic: "dm" for difference in mean, "ad" for Anderson-Darling test statistic (see Pesarin and Salmaso, 2010). Default: "dm"
-#- B: number of permutations (B > 2000 is recommended)
-#- comb.fun: combining function to be used (e.g. "F" for Fisher's)
-#- seed: the seed to be set for reproducibility
-
-#Output:
-#- P.comb: combined p-values
-#- P.part: partial p-values adjusted using FWE.minP correction
-
-
-test.stat.C.samples <- function(y, ord, statistic = "dm", B, comb.fun, seed){
   # #to combine
   # source("comb.R")
   # #to compute p-values

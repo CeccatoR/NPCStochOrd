@@ -2,11 +2,10 @@
 \alias{t2p}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate p-values
+P-values calculation
 }
 \description{
-Use the permutation distribution to compute p-values.
-
+Uses the permutation distribution of the chosen test statistic to compute p-values.
 }
 \usage{
 t2p(T)
